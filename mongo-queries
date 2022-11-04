@@ -177,6 +177,45 @@ $addToSet ensures that the values inserted are unique [Note: white color does no
 
 $push allows duplicate values inserted into the array.
 
+Delete
+
+Delete operation allows you to delete the documents from a collection that is no longer valid. You can specify criteria or filters to delete documents.
+
+Syntax:
+db.collection.remove(
+	{ <<remove criteria>> }
+)
+ 
+
+ 
+
+Requirement 2.4 implementation
+Delete the product with prodname 'xperia z':
+
+db.product_catalog.deleteOne(
+    {
+        prodname: "xperia z"
+    }
+)
+ 
+
+ 
+
+To delete all the products having price less than '1000':
+
+db.product_catalog.remove(
+    {
+        price: {$lt : 1000 } 
+    }
+)
+ 
+
+ 
+
+To delete all the documents from the product_catalog collection:
+
+db.product_catalog.remove( {} )
+Alternatively, db.collection.deleteMany() is used for deleting multiple documents matching the given criteria.
  
 
  
