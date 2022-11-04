@@ -238,3 +238,27 @@ db.product_catalog.update(
 	{ prodid: 7000020 },
 	{ $pullAll: { colors: ['white','gold'] } }
 )
+
+In the below query, you will insert a new document with prodid '200025', update the price of 'galaxy 7' from '45000' to '40000' and deletes all the mobiles that comes under the 'smartphones' sub category whose price is less than '4000'
+
+db.product_catalog.bulkWrite(
+      [
+         { insertOne :
+            {
+               "document" :
+               {
+                  "prodid":200025,"prodname":"MacBook Air","manufacturer":"apple","price":56000
+               }
+            }
+         },
+         { updateOne :
+            {
+               "filter" : { "prodname" : "galaxy 7" },
+               "update" : { $inc: {"price" : -5000 } }
+            }
+         },
+         { deleteMany :
+            { "filter" : { "categories.sub" : "smartphones", "price": { $lt: 4000 } } }
+         }
+      ] 
+)
