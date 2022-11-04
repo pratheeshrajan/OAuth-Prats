@@ -98,3 +98,104 @@ db.product_catalog.find(
 )
 
 
+16) update 
+db.collection.update(
+	{ <<update criteria>> },
+	{ <<update action>> },
+	{ <<update option>> }
+)
+
+Update a single document based on condition
+Update the prodname of a book from 'hadoop application architectures' to 'Hadoop architecture':
+
+db.product_catalog.updateOne( 
+	{ prodname : "hadoop application architectures" }, 
+	{ $set: { "name" : "Hadoop architecture" } } 
+)
+ 
+
+ 
+
+Update multiple embedded documents
+In the categories field, update the value of gender from 'women' to 'female':
+
+db.product_catalog.updateMany( 
+	{"categories.gender":"women"}, 
+	{ $set: {"categories.gender":"female"} } 
+)
+ 
+
+ 
+
+Using upsert to update documents else insert
+db.product_catalog.updateMany(
+      { "price" : { $gt : 80000 }, "manufacturer" : "apple" },
+      { $set: { "prodname" : "iphone 7 plus" } },
+      { upsert: true } 
+)
+The operation updates all the documents with price greater than '80000' and manufacturer  'apple'.
+If there are no documents matching the given criteria, a new document would be inserted.
+
+$inc
+Decrease the price of the book with ISBN '1979891' by 20:
+
+db.product_catalog.update(
+	{ ISBN: 1979891 },
+	{ $inc: { price: -20 } }
+)
+ 
+
+ 
+
+$max
+Update the price of the product with prodid '7000022' to '27500' if the given new value is greater than the current value:
+
+db.product_catalog.update(
+	{ prodid: 7000022 },
+	{ $max: { price: 27500 } }
+)
+ 
+
+ 
+
+$unset
+To delete the colors field from the document with prodid 7000022:
+
+db.product_catalog.update(
+	{ prodid: 7000022 },
+	{ $unset: {colors: ""} }
+)
+
+$addToSet
+Add 'white' color to the colors field of the document with prodid '7000020':
+
+db.product_catalog.update(
+	{ prodid: 7000020 },
+	{ $addToSet: { colors: "white" } }
+)
+$addToSet ensures that the values inserted are unique [Note: white color does not exist in the current set]
+
+$push allows duplicate values inserted into the array.
+
+ 
+
+ 
+
+$pop
+Remove the first element of the colors field from prodid '7000020' (use -1 to remove the value at the beginning of the array):
+
+db.product_catalog.update(
+	{ prodid: 7000020 },
+	{ $pop: { colors: -1 } }
+)
+ 
+
+ 
+
+$pullAll
+Delete all occurences of 'white' and 'gold' from the colors array:
+
+db.product_catalog.update(
+	{ prodid: 7000020 },
+	{ $pullAll: { colors: ['white','gold'] } }
+)
