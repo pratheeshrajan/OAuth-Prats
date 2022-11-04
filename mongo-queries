@@ -48,4 +48,53 @@ db.product_catalog.find(
 	{ "categories.main":{$ne:"electronics"} }
 )
 
+12) $and
+Retrieve the details of the 'smartphones' whose price is less than '25000'[inclusive]: db.product_catalog.find(
+	{$and:[
+			{ "categories.sub":"smartphones" },
+			{ price:{$lte:25000} }
+	      ]
+	} 
+)
+
+13)$or
+Retrieve the details of the products whose price is greater than or equal to '80000' or products whose manufacturer is 'apple':  db.product_catalog.find( 
+	{ $or: [ 
+			{ price: { $gte: 80000 } }, 
+			{ manufacturer: "apple" } 
+	       ] 
+	} 
+)
+
+14) $not
+Retrieve the products where the ISBN value is not equal to 2343454:  db.product_catalog.find( 
+		{ ISBN: { $not: { $eq: 2343454 } } 
+	    } 
+)
+
+
+15) Regex
+
+{ <field>: { $regex: /pattern/, $options: '<options>' } }
+OR
+{ <field>: { $regex: 'pattern', $options: '<options>' } }
+OR
+{ <field>: { $regex: /pattern/<options> } }
+OR
+{ <field>: /pattern/<options> }
+
+The $options clause takes the following as parameters:
+
+i – Performs a case insensitive match
+
+m – Performs pattern match that consists of anchors i.e. ^ for the beginning, $ for the end
+
+x – Ignores all white space characters in the pattern
+
+s – Allows dot character ( . ) to match all characters
+
+db.product_catalog.find(
+	{ prodname:{ $regex:/^iphone/i } }
+)
+
 
