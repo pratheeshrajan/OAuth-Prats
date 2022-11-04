@@ -1,0 +1,10 @@
+Mongo db regex
+--------------
+1) db.restaurants.find({borough: /Brook/}).count();
+2) db.restaurants.find({borough: {$regex: /Brook/}}).count();
+3) Avg - db.restaurants.aggregate([{$unwind: "$grades"}, {$group: {_id: "$name", avg: {$avg: "$grades.score"}}}]);
+4) elemmatch - db.sales.find({"items": {$elemMatch: {tags: 'school'}}}).count()
+
+5) db.customer.aggregate([{$project: {custName: {$concat: ["$customerName.firstname", " ", "$customerName.lastname"]}}}]);
+
+6) SUM AGGREGATE
