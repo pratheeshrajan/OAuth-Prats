@@ -7,4 +7,45 @@ Mongo db regex
 
 5) db.customer.aggregate([{$project: {custName: {$concat: ["$customerName.firstname", " ", "$customerName.lastname"]}}}]);
 
-6) SUM AGGREGATE
+6) To retrieve the products whose rating field is of 'Null' datatype - db.product_catalog.find(
+	{ rating: { $type:"null" } }
+)
+7) db.product_catalog.insert(
+    {
+        prodid: 7000001,
+        prodname: "iphone 7",
+        manufacturer: "apple",
+        categories: {main:"electronics",sub:"smartphones"},
+        date_of_launch: new Date("2016-09-07"),
+        price: 60000,
+        colors: ["silver","black","gold","rosegold"]
+    }
+)
+
+8) insert many - db.product_catalog.insert ( 
+[
+    {prodid:7000010,prodname:"nosql distilled",publisher:"Addison-Wesley",ISBN:1234567,price:400},
+    {prodid:7000011,prodname:"big data: principles and best practices",publisher:"Dreamtech",price:700}
+] 
+)
+
+9)$eq- To retrieve the names of the products that falls under the 'smartphones' sub category:
+ db.product_catalog.find(
+	{ "categories.sub":{$eq:"smartphones"} },
+	{ _id:0,prodname:1 }
+)
+
+10) $lt - To retrieve the product names having price less than '25000':
+
+db.product_catalog.find(
+	{ price:{$lt:25000} },
+	{ _id:0,prodname:1 }
+)
+
+11) $ne - Retrieve the documents that have values other than 'electronics' for the main category:
+
+db.product_catalog.find(
+	{ "categories.main":{$ne:"electronics"} }
+)
+
+
